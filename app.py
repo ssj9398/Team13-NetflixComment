@@ -1,6 +1,9 @@
 from flask import Flask
+from detail import detail
 
 app = Flask(__name__)
+
+app.register_blueprint(detail)
 
 
 @app.route('/')
