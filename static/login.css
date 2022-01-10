@@ -1,3 +1,36 @@
 body{
     /*background-color: orange;*/
+    background-color: black;
+}
+
+.logo img{
+    width: 100px;
+    height: 88px;
+    margin: 20px 0px 0px 20px
+}
+
+.container{
+    width: 500px;
+    margin: 200px auto auto auto;
+    text-align: center;
+}
+h1{
+    color: red;
+    font-weight: bold;
+}
+
+#login-box{
+
+    /*margin: 20px auto;*/
+    padding: 50px;
+    border-radius: 5px;
+
+}
+#login-box .mb-3{
+    width: 300px;
+    margin:0 auto
+}
+#login-box button{
+    margin: auto 10px auto;
+    background-color: red;
 }
