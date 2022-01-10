@@ -12,45 +12,89 @@
     <!--    Custom css 추가-->
     <link rel="stylesheet" href="../static/login.css">
 
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+
+    <!--    페이지 아이콘-->
+
+    <link rel="icon" href="../static/Netflix-logo.png">
+
     <!--js-->
     <script type="text/javascript">
+        // 로그인 버튼
         function login() {
 
         }
 
-        function register() {
+        let registerBtn = document.querySelector('#register-btn');
+
+        // 회원가입 버튼
+        // registerBtn.addEventListener('click',function (){
+        //         console.log("test");
+        //         searchEls.classList.add('registers');
+        //
+        // })
+            let searchEls = document.querySelectorAll('.register');
+            let searchEl = document.getElementsByClassName('register');
+
+        function onregister() {
+            // $(".register")
+            // console.log(      $(".register").className);
+            // searchEl.classList.add('test');
+            // searchEl.classList.add('registers');
+
 
         }
+
 
     </script>
 </head>
 <body>
 
-    <header>
-        <div class="inner">
-            <a href="/" class="logo">
-                <img src="../static/Netflix-logo.png" alt="logo">
-            </a>
-        </div>
-    </header>>
+<!--    헤드 로고-->
+<header>
+    <div class="inner">
+        <a href="/" class="logo">
+            <img src="../static/Netflix-logo.png" alt="logo">
+        </a>
+    </div>
+</header>
+>
 <!--로그인 섹션-->
 <section class="section">
     <div class="container">
         <!--    로그인 박스-->
         <div id="login-box">
+            <!--            웹사이트 제목-->
             <h1>Netflix Comment</h1>
-            <div class="mb-3">
+            <div class="mb-3 text-id">
                 <label for="exampleInputEmail1" class="form-label"> </label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                        placeholder="아이디">
+                <div class="register-id-btn register">
+                    <button type="submit" class="btn btn-danger">중복확인</button>
+                </div>
             </div>
             <div class="mb-3">
                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="비밀번호">
             </div>
+            <!--            회원가입시 등장-->
+            <div class="register">
+                <div class="mb-3">
+                    <input type="text" class="form-control"  placeholder="비밀번호 확인">
+                </div>
+            </div>
 
-            <button type="submit" class="btn btn-danger">로그인</button>
-            <button type="submit" class="btn btn-danger">회원가입</button>
-
+            <!--            버튼-->
+            <div class="inner-btn">
+                <div class="register">
+                <button type="submit" class="btn btn-danger">로그인</button>
+                <button onclick="onregister()" type="submit" class="btn btn-danger">회원가입</button>
+            </div>
+                </div>
         </div>
     </div>
 
