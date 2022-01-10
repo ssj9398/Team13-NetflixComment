@@ -39,7 +39,7 @@ h1{
     width: 300px;
     transition: width .4s;
 }
-#login-box .text-id.registers{
+#login-box .text-id .registers{
     width: 200px;
 }
 #login-box button{
@@ -51,7 +51,7 @@ h1{
     margin-top: -54px;
 
 }
-#login-box .inner-btn .registers{
+#login-box .inner-btn:hover{
     margin-top: 0px;
 }
 .register-id-btn{

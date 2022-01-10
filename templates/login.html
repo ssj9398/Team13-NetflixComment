@@ -41,8 +41,23 @@
             let searchEl = document.getElementsByClassName('register');
 
         function onregister() {
-            // $(".register")
-            // console.log(      $(".register").className);
+            // console.log(document.getElementsByClassName('register').classList);
+
+
+            for(let i=0;i<searchEl.length;i++)
+            {
+                console.log(searchEl[i])
+                searchEl[i].classList.add('registers');
+            }
+
+            // document.getElementById('register').classList.add('test');
+
+            // $(".register").className=('test');
+            // console.log($(".inner-btn"));
+            // $(".register").forEach(reg)
+            // {
+            //     console.log(reg);
+            // }
             // searchEl.classList.add('test');
             // searchEl.classList.add('registers');
 
@@ -70,7 +85,7 @@
         <div id="login-box">
             <!--            웹사이트 제목-->
             <h1>Netflix Comment</h1>
-            <div class="mb-3 text-id">
+            <div class="mb-3 text-id register">
                 <label for="exampleInputEmail1" class="form-label"> </label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                        placeholder="아이디">
