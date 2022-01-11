@@ -4,8 +4,9 @@ from datetime import datetime, timedelta
 import jwt
 from flask import Flask, render_template,jsonify, request
 from pymongo import MongoClient
-from home import get_contents
+from home import home_page, get_movies,save_movies
 from detail import detail
+
 #암호화 키
 SECRET_KEY = 'hanghae_13'
 
@@ -14,7 +15,9 @@ db = client.netflix_comment
 
 app = Flask(__name__)
 
-app.register_blueprint(get_contents)
+app.register_blueprint(home_page)
+app.register_blueprint(get_movies)
+app.register_blueprint(save_movies)
 app.register_blueprint(detail)
 
 
