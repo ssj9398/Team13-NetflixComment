@@ -72,7 +72,7 @@
 <!--    헤드 로고-->
 <header>
     <div class="inner">
-        <a href="/" class="logo">
+        <a href="./login.html" class="logo">
             <img src="../static/Netflix-logo.png" alt="logo">
         </a>
     </div>
@@ -85,21 +85,21 @@
         <div id="login-box">
             <!--            웹사이트 제목-->
             <h1>Netflix Comment</h1>
-            <div class="mb-3 text-id register">
+            <div class="mb-3 register" id="text-id">
                 <label for="exampleInputEmail1" class="form-label"> </label>
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                <input type="text" class="form-control" id="id_val" aria-describedby="emailHelp"
                        placeholder="아이디">
-                <div class="register-id-btn register">
+                <div class="register-id-btn register" >
                     <button type="submit" class="btn btn-danger">중복확인</button>
                 </div>
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="비밀번호">
+                <input type="text" class="form-control" id="pw" placeholder="비밀번호">
             </div>
             <!--            회원가입시 등장-->
             <div class="register">
                 <div class="mb-3">
-                    <input type="text" class="form-control"  placeholder="비밀번호 확인">
+                    <input type="text" id="pwCheck" class="form-control"  placeholder="비밀번호 확인">
                 </div>
             </div>
 

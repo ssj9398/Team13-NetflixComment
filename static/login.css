@@ -33,35 +33,55 @@ h1{
     margin:0 auto;
 
 }
-#login-box .text-id{
-    margin-left: 10%;
-/*text-align: start;*/
-    width: 300px;
-    transition: width .4s;
-}
-#login-box .text-id .registers{
+#login-box .mb-3 .register{
+    position: absolute;
     width: 200px;
 }
-#login-box button{
+#login-box #text-id .register {
+    width: 110px;
+    transition: right,opacity .4s,.4s;
+    right: 120px;
+    opacity: 0;
+}
+
+/*#login-box #text-id .register-id-btn:hover{*/
+#login-box #text-id  .registers{
+    right: 215px;
+    opacity: 1;
+}
+#login-box #text-id .register>button {
+
+}
+#login-box  button{
     margin: auto 10px auto;
     background-color: red;
 }
-#login-box .inner-btn{
+#login-box .inner-btn .register{
     transition: margin-top .4s;
     margin-top: -54px;
-
 }
-#login-box .inner-btn:hover{
+
+#login-box .inner-btn .registers{
     margin-top: 0px;
 }
 .register-id-btn{
     margin-top: -38px;
-    margin-right: -110px;
+    /*margin-right: -110px;*/
     text-align: end;
     opacity: 1;
 }
-.register-id-btn.show{
-    transform: translateX(110px) translateY(-38px);
-    text-align: end;
+#pwCheck{
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .4s;
+
+}
+.registers #pwCheck {
+    visibility: visible;
     opacity: 1;
 }
+/*.register-id-btn.show{*/
+/*    transform: translateX(110px) translateY(-38px);*/
+/*    text-align: end;*/
+/*    opacity: 1;*/
+/*}*/
