@@ -4,8 +4,9 @@ from datetime import datetime, timedelta
 import jwt  #패키지 PyJWT
 from flask import Flask, render_template,jsonify, request,redirect,url_for
 from pymongo import MongoClient
-from home import get_contents
+from home import home_page, get_movies,save_movies
 from detail import detail
+
 
 #암호화 키 / JWT 토큰을 사용할때 쓰는 비밀문자열
 SECRET_KEY = 'hanghae_13'
@@ -15,7 +16,9 @@ db = client.netflix_comment
 
 app = Flask(__name__)
 
-app.register_blueprint(get_contents)
+app.register_blueprint(home_page)
+app.register_blueprint(get_movies)
+app.register_blueprint(save_movies)
 app.register_blueprint(detail)
 
 #jwt 체크 함수 모듈화 테스트중
