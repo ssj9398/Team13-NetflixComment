@@ -18,10 +18,15 @@ app = Flask(__name__)
 app.register_blueprint(get_contents)
 app.register_blueprint(detail)
 
+#jwt 체크 함수 모듈화 테스트중
+def testdef(html):
+    return render_template(html)
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!!'
+
+
+# @app.route('/')
+# def hello_world():  # put application's code here
+#     return testdef('login.html')
 
 # 로그인라우터
 @app.route('/login', methods=['GET'])
@@ -36,7 +41,7 @@ def login_page():
         return redirect(url_for("home"))
 
     except:
-        return render_template('login.html')
+        return render_template('login.html',msg=msg)
 
 # 회원가입 api
 @app.route('/api/register',methods=['POST'] )
@@ -78,11 +83,10 @@ def login():
     if result is not None:
         payload = {
             'id' : id_receive,
-            # 'exp' : datetime.datetime.utcnow() + timedelta(seconds = 60 * 60 * 24)
-            'exp' : datetime.utcnow() + timedelta(seconds = 30) #test
+            'exp' : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24) #24시간 유지
+            # 'exp' : datetime.utcnow() + timedelta(seconds = 30) #test
 
         }
-        extest =datetime.utcnow() + timedelta(seconds = 30) #test
         token = jwt.encode(payload,SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result':'success','token':token})
@@ -103,6 +107,18 @@ def login():
 #     except jwt.exceptions.DecodeError:
 #         return redirect(url_for("login_page",msg="로그인 정보 없음"))
 
+#jwt 토큰 테스트
+# @app.route('/test')
+# def test():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         user_info = db.user.find_one({"id": payload['id']})
+#         return render_template('detail.html')
+#     except jwt.ExpiredSignatureError:
+#         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+#     except jwt.exceptions.DecodeError:
+#         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
     app.run()
