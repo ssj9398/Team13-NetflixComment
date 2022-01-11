@@ -70,13 +70,13 @@ h1{
     text-align: end;
     opacity: 1;
 }
-#pwCheck{
+#pwCheck_input{
     visibility: hidden;
     opacity: 0;
     transition: opacity .4s;
 
 }
-.registers #pwCheck {
+.registers #pwCheck_input {
     visibility: visible;
     opacity: 1;
 }
