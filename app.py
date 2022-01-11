@@ -1,13 +1,14 @@
 import hashlib
 import datetime
 from datetime import datetime, timedelta
-import jwt
-from flask import Flask, render_template,jsonify, request
+import jwt  #패키지 PyJWT
+from flask import Flask, render_template,jsonify, request,redirect,url_for
 from pymongo import MongoClient
 from home import home_page, get_movies,save_movies
 from detail import detail
 
-#암호화 키
+
+#암호화 키 / JWT 토큰을 사용할때 쓰는 비밀문자열
 SECRET_KEY = 'hanghae_13'
 
 client = MongoClient('localhost', 27017)
@@ -20,15 +21,30 @@ app.register_blueprint(get_movies)
 app.register_blueprint(save_movies)
 app.register_blueprint(detail)
 
+#jwt 체크 함수 모듈화 테스트중
+def testdef(html):
+    return render_template(html)
 
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!!'
+
+
+# @app.route('/')
+# def hello_world():  # put application's code here
+#     return testdef('login.html')
 
 # 로그인라우터
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def login_page():
-    return render_template('login.html')
+
+    msg = request.args.get("msg")
+    token_receive = request.cookies.get('mytoken')
+
+    try:
+        payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
+        user_info = db.User.find_one({"id":payload['id']})
+        return redirect(url_for("home"))
+
+    except:
+        return render_template('login.html',msg=msg)
 
 # 회원가입 api
 @app.route('/api/register',methods=['POST'] )
@@ -70,8 +86,9 @@ def login():
     if result is not None:
         payload = {
             'id' : id_receive,
-            'exp' : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24)
-            # 'exp' : datetime.utcnow() + timedelta(seconds = 5) #test
+            'exp' : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24) #24시간 유지
+            # 'exp' : datetime.utcnow() + timedelta(seconds = 30) #test
+
         }
         token = jwt.encode(payload,SECRET_KEY, algorithm='HS256')
 
@@ -80,6 +97,31 @@ def login():
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
 
+
+# @detail.route('/home')
+# def home():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         user_info = db.User.find_one({"id": payload['id']})
+#         return render_template('home.html')
+#     except jwt.ExpiredSignatureError:
+#         return redirect(url_for("login_page",msg="로그인 시간 만료"))
+#     except jwt.exceptions.DecodeError:
+#         return redirect(url_for("login_page",msg="로그인 정보 없음"))
+
+#jwt 토큰 테스트
+# @app.route('/test')
+# def test():
+#     token_receive = request.cookies.get('mytoken')
+#     try:
+#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+#         user_info = db.user.find_one({"id": payload['id']})
+#         return render_template('detail.html')
+#     except jwt.ExpiredSignatureError:
+#         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+#     except jwt.exceptions.DecodeError:
+#         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
     app.run()

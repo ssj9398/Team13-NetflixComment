@@ -13,7 +13,10 @@ body{
 
 .container{
     width: 500px;
-    margin: 120px auto auto auto;
+    /*margin: 20% auto auto auto;*/
+    display: grid;
+    place-items: center;
+
     text-align: center;
 }
 h1{
@@ -40,13 +43,17 @@ h1{
 #login-box #text-id .register {
     width: 110px;
     transition: right,opacity .4s,.4s;
-    right: 120px;
+    right: -10%;
     opacity: 0;
 }
 
 /*#login-box #text-id .register-id-btn:hover{*/
+#login-box #text-id{
+    position: relative;
+}
 #login-box #text-id  .registers{
-    right: 215px;
+    position: absolute;
+    right: -3.5%;
     opacity: 1;
 }
 #login-box #text-id .register>button {
