@@ -29,6 +29,14 @@
 
         let btntoogle = false
 
+        //로그인 시 엔터로 로그인 버튼 입력
+        function Entertologin(){
+            if(!btntoogle)
+                login()
+        }
+
+
+
         // 로그인 버튼겸 회원가입버튼
         function login() {
             if (btntoogle)//회원가입
@@ -204,12 +212,12 @@
                 </div>
             </div>
             <div class="mb-3">
-                <input type="password" class="form-control" id="pw_input" placeholder="비밀번호">
+                <input type="password"  onkeypress="if(event.keyCode==13){Entertologin();}" class="form-control" id="pw_input" placeholder="비밀번호">
             </div>
             <!--회원가입시 등장-->
             <div class="register">
                 <div class="mb-3">
-                    <input type="password" id="pwCheck_input" class="form-control" placeholder="비밀번호 확인">
+                    <input type="password"   id="pwCheck_input" class="form-control" placeholder="비밀번호 확인">
                 </div>
             </div>
 
