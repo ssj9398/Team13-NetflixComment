@@ -22,9 +22,11 @@ app.register_blueprint(save_movies)
 app.register_blueprint(detail)
 
 #jwt 체크 함수 모듈화 테스트중
-def testdef(html):
-    return render_template(html)
-
+def GetJwtId():
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.User.find_one({"id": payload['id']})
+    return user_info['id']
 
 
 # @app.route('/')
@@ -41,8 +43,12 @@ def login_page():
     try:
         payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
         user_info = db.User.find_one({"id":payload['id']})
-        return redirect(url_for("home"))
+        return redirect(url_for("main",user_info))
 
+    # except jwt.ExpiredSignatureError:
+    #     return redirect(url_for("login_page",msg="로그인 시간 만료"))
+    # except jwt.exceptions.DecodeError:
+    #     return redirect(url_for("login_page",msg="로그인 정보 없음"))
     except:
         return render_template('login.html',msg=msg)
 
