@@ -1,13 +1,25 @@
 import re
 
+import jwt
 from flask import Blueprint, render_template, jsonify, request
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
+SECRET_KEY = 'hanghae_13'
+
 client = MongoClient('localhost', 27017)
 db = client.netflix_comment
 home = Blueprint('home', __name__)
+
+
+# #jwt id 값 모듈화
+def GetJwtId():
+    # token_check()
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    user_info = db.User.find_one({"id": payload['id']})
+    return user_info['id']
 
 
 # home 라우터 (컨텐츠 디비에서 가져온 후 보여줌)
@@ -40,25 +52,33 @@ def read_movies():
                     'star': star})
 
 
-# 컨텐츠 즐겨찾기 토글
-@home.route('/bookmark', methods=['POST'])
-def update_bookmark():
-    title = request.form['title']
-    movie_info = db.movie.find_one({"movie_title": title}, {'_id': False})
-    if movie_info['fav']:
-        db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": False}})
-        return jsonify({'msg': '즐겨찾기를 해제합니다.'})
-    else:
-        db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": True}})
-        return jsonify({'msg': '즐겨찾기에 추가되었습니다.'})
-
+# 사용자 즐겨찾기 목록 가져오기
+@home.route('/check_bookmark', methods=['GET'])
+def read_bookmark():
+    id = GetJwtId()
+    dbid = db.User.find_one({'id': id})
+    fav = db.User.find_one({'id': dbid['id']})
+    return jsonify({"fav": fav['fav']})
 
 # 컨텐츠 즐겨찾기 확인
-@home.route('/bookmark', methods=['GET'])
-def read_bookmark():
-    title = request.form['title']
-    print(db.movie.find_one({"movie_title": title}, {'_id': False})['fav'])
-    return db.movie.find_one({"movie_title": title}, {'_id': False})['fav']
+# @home.route('/check_bookmark', methods=['GET'])
+# def read_bookmark():
+#     title = request.form['title']
+#     print(db.movie.find_one({"movie_title": title}, {'_id': False})['fav'])
+#     return db.movie.find_one({"movie_title": title}, {'_id': False})['fav']
+
+#
+# # 컨텐츠 즐겨찾기 토글
+# @home.route('/bookmark', methods=['POST'])
+# def update_bookmark():
+#     title = request.form['title']
+#     movie_info = db.movie.find_one({"movie_title": title}, {'_id': False})
+#     if movie_info['fav']:
+#         db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": False}})
+#         return jsonify({'msg': '즐겨찾기를 해제합니다.'})
+#     else:
+#         db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": True}})
+#         return jsonify({'msg': '즐겨찾기에 추가되었습니다.'})
 
 
 # 모든 컨텐츠 디비에 저장 (❗️한 번만 실행되야함)
