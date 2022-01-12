@@ -35,24 +35,24 @@ body{
     margin-bottom: 10px;
 }
 
+.col img {
+    border-radius: 5px;
+}
+
 .col > a {
     text-decoration: none;
 }
 
-#bookmark svg {
+.bookmark svg {
     position: absolute;
     top: 0px;
     fill: white;
     width: 30px;
-    opacity: .4;
+    opacity: .5;
     z-index: 1;
 }
 
-#bookmark svg:hover {
+.bookmark svg:hover {
     cursor: pointer;
     opacity: .8;
-}
-
-#bookmark svg:checked {
-    fill: yellow;
 }
