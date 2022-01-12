@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import jwt  #패키지 PyJWT
 from flask import Flask, render_template,jsonify, request,redirect,url_for
 from pymongo import MongoClient
-from home import home_page, get_movies,save_movies
+from home import home
 from detail import detail
 
 
@@ -16,9 +16,7 @@ db = client.netflix_comment
 
 app = Flask(__name__)
 
-app.register_blueprint(home_page)
-app.register_blueprint(get_movies)
-app.register_blueprint(save_movies)
+app.register_blueprint(home)
 app.register_blueprint(detail)
 
 #jwt 체크 함수 모듈화 테스트중
