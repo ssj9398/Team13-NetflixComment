@@ -48,6 +48,7 @@ h1{
     transition: right,opacity .4s,.4s;
     right: -10%;
     opacity: 0;
+    pointer-events: none;
 }
 
 /*#login-box #text-id .register-id-btn:hover{*/
@@ -57,6 +58,7 @@ h1{
 #login-box #text-id  .registers{
     position: absolute;
     right: -3.5%;
+    pointer-events: auto;
     opacity: 1;
 }
 #login-box #text-id .register>button {
