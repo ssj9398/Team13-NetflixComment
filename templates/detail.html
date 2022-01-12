@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="/static/detail.css">
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -22,296 +23,7 @@
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
     <style type="text/css">
-        * {
-            font-family: "Do Hyeon", sans-serif;
-            color: white;
-        }
 
-        h1,
-        h3 {
-            text-align: center;
-        }
-
-
-        h5 {
-            display: inline;
-        }
-
-        p {
-            font-size: 18px;
-        }
-
-        .info {
-            margin-top: 120px;
-            margin-bottom: 20px;
-        }
-
-        .review {
-            text-align: center;
-        }
-
-        .reviews {
-            margin-top: 100px;
-        }
-
-        .img-fluid {
-            max-width: 80%;
-        }
-
-        body {
-            background-color: #141414;
-        }
-
-        img {
-            float: left;
-            width: 700px;
-            height: 100px;
-        }
-
-        .container {
-            padding-top: 100px;
-            background-color: #141414;
-            padding-bottom: 100px;
-        }
-
-        .flex_item {
-            display: flex;
-
-            margin-bottom: 30px;
-        }
-
-        .logo img {
-            width: 100px;
-            height: 88px;
-            margin: 20px 0px 0px 20px;
-        }
-
-        .inner {
-            width: 100px;
-            background-color: #141414;
-            height: 100px;
-        }
-
-        .menu_item {
-            flex: 1;
-            height: auto;
-        }
-
-        .wrap {
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-color: #141414;
-            padding-bottom: 100px;
-        }
-
-        .starpoint_wrap {
-            display: inline-block;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .starpoint_wrap2 {
-            display: inline-block;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .starpoint_box {
-            position: relative;
-            background: url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 0 no-repeat;
-            font-size: 0;
-        }
-
-        .starpoint_box2 {
-            position: relative;
-            background: url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 0 no-repeat;
-            font-size: 0;
-        }
-
-        .starpoint_box .starpoint_bg {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 18px;
-            background: url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 -20px no-repeat;
-            pointer-events: none;
-        }
-
-        .starpoint_box .label_star {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            box-sizing: border-box;
-        }
-
-        .starpoint_box .star_radio {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(1):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(1):checked ~ .starpoint_bg {
-            width: 10%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(2):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(2):checked ~ .starpoint_bg {
-            width: 20%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(3):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(3):checked ~ .starpoint_bg {
-            width: 30%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(4):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(4):checked ~ .starpoint_bg {
-            width: 40%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(5):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(5):checked ~ .starpoint_bg {
-            width: 50%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(6):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(6):checked ~ .starpoint_bg {
-            width: 60%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(7):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(7):checked ~ .starpoint_bg {
-            width: 70%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(8):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(8):checked ~ .starpoint_bg {
-            width: 80%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(9):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(9):checked ~ .starpoint_bg {
-            width: 90%;
-        }
-
-        .starpoint_box .star_radio:nth-of-type(10):hover ~ .starpoint_bg,
-        .starpoint_box .star_radio:nth-of-type(10):checked ~ .starpoint_bg {
-            width: 100%;
-        }
-
-
-        .starpoint_wrap2 {
-            display: inline-block;
-            margin-left: 20px;
-            margin-right: 20px;
-        }
-
-        .starpoint_box2 {
-            position: relative;
-            background: url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 0 no-repeat;
-            font-size: 0;
-        }
-
-
-        .starpoint_box2 .starpoint_bg2 {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 18px;
-            background: url(https://hsecode.github.io/images_codepen/codepen_sp_star.png) 0 -20px no-repeat;
-            pointer-events: none;
-        }
-
-        .starpoint_box2 .label_star2 {
-            display: inline-block;
-            width: 10px;
-            height: 18px;
-            box-sizing: border-box;
-        }
-
-        .starpoint_box2 .star_radio2 {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(1):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(1):checked ~ .starpoint_bg2 {
-            width: 10%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(2):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(2):checked ~ .starpoint_bg2 {
-            width: 20%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(3):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(3):checked ~ .starpoint_bg2 {
-            width: 30%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(4):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(4):checked ~ .starpoint_bg2 {
-            width: 40%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(5):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(5):checked ~ .starpoint_bg2 {
-            width: 50%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(6):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(6):checked ~ .starpoint_bg2 {
-            width: 60%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(7):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(7):checked ~ .starpoint_bg2 {
-            width: 70%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(8):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(8):checked ~ .starpoint_bg2 {
-            width: 80%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(9):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(9):checked ~ .starpoint_bg2 {
-            width: 90%;
-        }
-
-        .starpoint_box2 .star_radio2:nth-of-type(10):hover ~ .starpoint_bg2,
-        .starpoint_box2 .star_radio2:nth-of-type(10):checked ~ .starpoint_bg2 {
-            width: 100%;
-        }
-
-
-        .blind {
-            position: absolute;
-            clip: rect(0 0 0 0);
-            margin: -1px;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-
-        header {
-            width: 1200px;
-            margin: auto;
-        }
-
-        .movie_info {
-            margin-top: 150px;
-        }
-
-        .makeReview {
-            margin-top: 50px;
-        }
 
     </style>
 </head>
@@ -332,8 +44,10 @@
     <div class="container">
         <div class="flex_item">
             <div class="menu_item">
-                <img src={{ movieImage }} class="img-fluid"
-                     alt="Responsive image">
+                <div class="img_area">
+                    <img src={{ movieImage }} class="img-fluid"
+                         alt="Responsive image">
+                </div>
             </div>
             <div class="menu_item">
                 <div class="movie_info">
@@ -346,7 +60,6 @@
         </div>
         <div class="info">
             <h1>재밌게 본 영화 후기를 남겨보세요</h1>
-            <!--<p>다른 사람을 위해 리뷰를 남겨주세요! 다 같이 좋은 책을 읽는다면 다 함께 행복해질 수 있지 않을까요?</p>-->
         </div>
         <div class="reviews">
             <table class="table" id="reviewTable">
@@ -470,7 +183,6 @@
 </div>
 </body>
 <script type="text/javascript">
-
     $(document).ready(function () {
         $("#updateReview").hide();
     });
@@ -479,7 +191,6 @@
         let Review = $('#bookReview').val();
         let starValue = $('input[name="starpoint"]:checked').val();
 
-        console.log("bookReview" + Review + "startValue = " + starValue);
         $.ajax({
             type: "POST",
             url: "/review",
@@ -493,18 +204,16 @@
         })
     }
 
-
     function deleteReview() {
         $("#reviews-box tr").click(function () {
             let tdArr = new Array();
             tdArr = [];
-
             let tr = $(this);
             let td = tr.children();
-
             td.each(function (i) {
                 tdArr.push(td.eq(i).text());
             });
+
             $.ajax({
                 type: "Delete",
                 url: "/review",
@@ -518,18 +227,15 @@
     }
 
     $("#reviews-box tr").click(function () {
-
         let tdArr = new Array();
         tdArr = [];
-
         let tr = $(this);
         let td = tr.children();
         td.each(function (i) {
             tdArr.push(td.eq(i).text());
         });
-        //console.log("tdArr[0]" + tdArr[0] + "tdArr[1]" + tdArr[1] + "tdArr[2]" + tdArr[2] + "tdArr[3]" + tdArr[3])
-        $("#updateButton").click(function () {
 
+        $("#updateButton").click(function () {
                 let updateReview = $("#updateReviews").val();
                 let updateStarValue = $('input[name="starpoint"]:checked').val();
                 console.log("1111" + updateReview + updateStarValue);
@@ -550,13 +256,11 @@
                         window.location.reload();
                     }
                 })
-
             }
         )
     })
 
     $("#reviews-box tr td button:first-child").click(function () {
-
         if ($(this).html() == '수정') {
             $("#updateReview").show();
             $("#makeReview").hide();
@@ -568,8 +272,5 @@
             $(this).html('수정');
         }
     })
-
-
 </script>
-
 </html>

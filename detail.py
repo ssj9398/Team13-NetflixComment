@@ -94,8 +94,6 @@ def write_review():
         }
         db.review.insert_one(doc)
         return jsonify({'msg': '리뷰 등록 완료'})
-        # return render_template('detail.html', userId=TokenUserId, review=review, starValue=starValue,
-        #                        nowDatetime=nowDatetime)
 
 
 @detail.route('/review', methods=['GET'])
@@ -106,7 +104,7 @@ def read_reviews():
     reviews = list(db.review.find({"movieTitle": movieTitle}, {'_id': False}))
     print(reviews)
     # return jsonify({'reviews': reviews, 'TokenUserId': TokenUserId})
-    return render_template('detail.html', reviews=reviews, TokenUserId=TokenUserId)
+    return jsonify({'msg': '리뷰 조회'})
 
 
 @detail.route('/review', methods=['Delete'])
