@@ -25,6 +25,15 @@
     <!-- Favicon -->
     <link rel="icon" href="../static/Netflix-logo.png">
 
+    <!-- Script -->
+    <script type="text/javascript">
+        const clickedBookmark = () => {
+            {#$('#bookmark svg').css('fill', '#FCC400');#}
+            alert('즐겨찾기에 추가되었습니다.')
+        }
+
+    </script>
+
 </head>
 <body>
 
@@ -46,14 +55,22 @@
 <section class="section">
     <div class="container">
         <div class="grid">
+            <!-- Movie Poster -->
             {% for img in movie_image %}
                 <div class="col">
-                    <a href={{ '/detail' + movie_href[loop.index - 1] }}>
+                    <a href={{ movie_href[loop.index - 1] }}>
                         <img src={{ movie_image[loop.index - 1] }}>
                         <div class="movie_title">
                             {{ movie_title[loop.index - 1] }}
                         </div>
                     </a>
+                    <!-- Bookmark -->
+                    <div id="bookmark" onclick="clickedBookmark()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <g id="icomoon-ignore"></g>
+                            <path d="M96 0v512l160-160 160 160v-512z"></path>
+                        </svg>
+                    </div>
                 </div>
             {% endfor %}
         </div>
