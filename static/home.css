@@ -31,5 +31,28 @@ body{
 }
 
 .col {
+    position: relative;
     margin-bottom: 10px;
+}
+
+.col > a {
+    text-decoration: none;
+}
+
+#bookmark svg {
+    position: absolute;
+    top: 0px;
+    fill: white;
+    width: 30px;
+    opacity: .4;
+    z-index: 1;
+}
+
+#bookmark svg:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+#bookmark svg:checked {
+    fill: yellow;
 }
