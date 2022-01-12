@@ -45,7 +45,7 @@
                     url: "/bookmark",
                     data: {"title": movie},
                     success: function (response) {
-                        alert(response);
+                        alert(response['msg']);
                         {#window.location.reload();#}
                     }
                 })
@@ -58,6 +58,8 @@
         {#// 즐겨찾기 확인#}
         {#function readBookmark() {#}
         {#    #}
+
+
 
     </script>
 
