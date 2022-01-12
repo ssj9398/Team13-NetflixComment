@@ -1,6 +1,9 @@
 body{
 
     background-image: url("https://assets.nflxext.com/ffe/siteui/vlv3/c16cf196-e89e-4c46-8cc7-f2eca6fb0762/891fc680-6d70-4a0a-9c4f-27243341799f/KR-ko-20220103-popsignuptwoweeks-perspective_alpha_website_small.jpg");
+    background-repeat: repeat repeat;
+    background-position: center;
+    background-size: cover;
     width: 100%;
     height: 100%;
 }
