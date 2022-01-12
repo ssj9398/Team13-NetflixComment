@@ -150,8 +150,8 @@ def login():
     if result is not None:
         payload = {
             'id' : id_receive,
-            # 'exp' : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24) #24시간 유지
-            'exp' : datetime.utcnow() + timedelta(seconds = 30) #test
+            'exp' : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24) #24시간 유지
+            # 'exp' : datetime.utcnow() + timedelta(seconds = 5) #test
 
         }
         token = jwt.encode(payload,SECRET_KEY, algorithm='HS256')

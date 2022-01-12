@@ -1,12 +1,14 @@
 import urllib
 
-from flask import render_template, Blueprint, request, jsonify
+from flask import render_template, Blueprint, request, jsonify,redirect,url_for
 import requests
 from bs4 import BeautifulSoup
 from urllib import parse
 import datetime
 
 from pymongo import MongoClient
+import jwt  #패키지 PyJWT
+SECRET_KEY = 'hanghae_13'
 
 client = MongoClient('localhost', 27017)
 db = client.netflix_comment
@@ -26,51 +28,62 @@ def main(movie_name, category):
     data = requests.get(url)
     soup = BeautifulSoup(data.text, 'html.parser')
 
-    global movieTitle
-    movieTitle = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div.title-block__container > div.title-block > div').text
-    print("movieTitle = " + movieTitle)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.user.find_one({"id": payload['id']})
 
-    movieGenre = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(3) > div.detail-infos__value').text
-    print("movieGenre = " + movieGenre)
+        global movieTitle
+        movieTitle = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div.title-block__container > div.title-block > div').text
+        print("movieTitle = " + movieTitle)
 
-    movieTime = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(4) > div.detail-infos__value').text
-    print("movieTime = " + movieTime)
+        movieGenre = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(3) > div.detail-infos__value').text
+        print("movieGenre = " + movieGenre)
 
-    movieImage = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-xs.visible-sm.hidden-md.hidden-lg.title-sidebar__desktop > div > picture > source:nth-child(1)')[
-        "data-srcset"].split(',')[0]
+        movieTime = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(4) > div.detail-infos__value').text
+        print("movieTime = " + movieTime)
 
-    ###base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-poster.title-poster--no-radius-bottom > picture > source:nth-child(1)
-    print("movieImage = " + movieImage)
+        movieImage = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-xs.visible-sm.hidden-md.hidden-lg.title-sidebar__desktop > div > picture > source:nth-child(1)')[
+            "data-srcset"].split(',')[0]
 
-    movieSummary = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(4) > p > span')
+        ###base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-poster.title-poster--no-radius-bottom > picture > source:nth-child(1)
+        print("movieImage = " + movieImage)
 
-    dramaSummary = soup.select_one(
-        '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(7) > div:nth-child(1) > div:nth-child(4) > p > span')
-    ##base > div.jw-info-box.jw-info-box--no-card > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(4) > p
+        movieSummary = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(4) > p > span')
 
-    # dramaMainSomnail = soup.select_one(
-    #     '#base > div.backdrops > div > div > div:nth-child(2) > picture > img')["src"]
-    #
-    # print("dramaMainSomnail = " +dramaMainSomnail.text)
+        dramaSummary = soup.select_one(
+            '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(7) > div:nth-child(1) > div:nth-child(4) > p > span')
+        ##base > div.jw-info-box.jw-info-box--no-card > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(4) > p
+
+        # dramaMainSomnail = soup.select_one(
+        #     '#base > div.backdrops > div > div > div:nth-child(2) > picture > img')["src"]
+        #
+        # print("dramaMainSomnail = " +dramaMainSomnail.text)
 
 
-    if str(movieSummary) != 'None':
-        movieSummary = movieSummary.text
+        if str(movieSummary) != 'None':
+            movieSummary = movieSummary.text
 
-    elif str(movieSummary) == 'None':
-        movieSummary = dramaSummary.text
+        elif str(movieSummary) == 'None':
+            movieSummary = dramaSummary.text
 
-    read_reviews()
+        read_reviews()
 
-    return render_template('detail.html', TokenUserId=TokenUserId, movieTitle=movieTitle, movieGenre=movieGenre,
-                           movieTime=movieTime,
-                           movieSummary=movieSummary, movieImage=movieImage, reviews=reviews)
+        return render_template('detail.html', TokenUserId=TokenUserId, movieTitle=movieTitle, movieGenre=movieGenre,
+                               movieTime=movieTime,
+                               movieSummary=movieSummary, movieImage=movieImage, reviews=reviews)
 
+    except jwt.ExpiredSignatureError:
+        print('로그인 시간만료')
+        return redirect(url_for('login_page'))
+    except jwt.exceptions.DecodeError:
+        print('로그인 정보 없음')
+        return redirect(url_for('login_page'))
 
 @detail.route('/review', methods=['POST'])
 def write_review():
