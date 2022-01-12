@@ -1,6 +1,6 @@
 import re
 
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
@@ -40,6 +40,27 @@ def read_movies():
                     'star': star})
 
 
+# 컨텐츠 즐겨찾기 토글
+@home.route('/bookmark', methods=['POST'])
+def update_bookmark():
+    title = request.form['title']
+    movie_info = db.movie.find_one({"movie_title": title}, {'_id': False})
+    if movie_info['fav']:
+        db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": False}})
+        return jsonify({'msg': '즐겨찾기를 해제합니다.'})
+    else:
+        db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": True}})
+        return jsonify({'msg': '즐겨찾기에 추가되었습니다.'})
+
+
+# 컨텐츠 즐겨찾기 확인
+@home.route('/bookmark', methods=['GET'])
+def read_bookmark():
+    title = request.form['title']
+    print(db.movie.find_one({"movie_title": title}, {'_id': False})['fav'])
+    return db.movie.find_one({"movie_title": title}, {'_id': False})['fav']
+
+
 # 모든 컨텐츠 디비에 저장 (❗️한 번만 실행되야함)
 @home.route("/save_movies")
 def save_movies():
@@ -54,9 +75,10 @@ def save_movies():
 
     # 컨텐츠 각 항목에 접근 후 디비에 저장
     for tags in new_tags:
-        title = tags.img.get('alt')
+        title = tags.img.get('alt').replace(" ", "")
         href_tag = re.sub('/kr', '/detail', tags['href'])
         star = 0
+        fav = False
         if tags.img.get('data-src'):
             src = tags.img.get('data-src')
         else:
@@ -67,6 +89,7 @@ def save_movies():
             'movie_image': src,
             'href': href_tag,
             'star': star,
+            'fav': fav,
         }
 
         db.movie.insert_one(doc)
