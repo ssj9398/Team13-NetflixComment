@@ -48,11 +48,11 @@ body{
     top: 0px;
     fill: white;
     width: 30px;
-    opacity: .5;
+    opacity: .8;
     z-index: 1;
 }
 
 .bookmark svg:hover {
     cursor: pointer;
-    opacity: .8;
+    opacity: 1;
 }
