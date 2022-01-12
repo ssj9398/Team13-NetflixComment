@@ -1,3 +1,4 @@
+import time
 import urllib
 
 from flask import render_template, Blueprint, request, jsonify,redirect,url_for
@@ -5,6 +6,11 @@ import requests
 from bs4 import BeautifulSoup
 from urllib import parse
 import datetime
+
+
+
+
+
 
 from pymongo import MongoClient
 import jwt  #패키지 PyJWT
@@ -46,6 +52,30 @@ def main(movie_name, category):
             '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(4) > div.detail-infos__value').text
         print("movieTime = " + movieTime)
 
+
+        movieMainThumbnail = soup.select_one(
+            '#base > div.backdrops > div > div > div:nth-child(2) > picture > img')
+        print("dramaMainThumbnail = " + str(movieMainThumbnail))
+
+        movieMainThumbnail2 = soup.select_one(
+            '#base > div.backdrops.backdrops__carousel > div > div.swiper-container > div > div.swiper-slide.swiper-slide-active > picture > img')
+        print("movieMainThumbnail2 = "+ str(movieMainThumbnail2))
+
+        movieMainThumbnail3 = soup.select_one(
+             '#base > div.backdrops.backdrops__carousel > div > div.swiper-container > div > div > picture > img')
+        print("movieMainThumbnail3 = "+ str(movieMainThumbnail3))
+
+        if str(movieMainThumbnail) != 'None':
+            movieMainThumbnail = movieMainThumbnail["src"]
+
+        elif str(movieMainThumbnail2) != 'None':
+            movieMainThumbnail = movieMainThumbnail2["src"]
+        elif str(movieMainThumbnail3) != 'None':
+            movieMainThumbnail = movieMainThumbnail3["src"]
+        else:
+            movieMainThumbnail = ""
+
+
         movieImage = soup.select_one(
             '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-xs.visible-sm.hidden-md.hidden-lg.title-sidebar__desktop > div > picture > source:nth-child(1)')[
             "data-srcset"].split(',')[0]
@@ -58,13 +88,6 @@ def main(movie_name, category):
 
         dramaSummary = soup.select_one(
             '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(7) > div:nth-child(1) > div:nth-child(4) > p > span')
-        ##base > div.jw-info-box.jw-info-box--no-card > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(6) > div:nth-child(1) > div:nth-child(4) > p
-
-        # dramaMainSomnail = soup.select_one(
-        #     '#base > div.backdrops > div > div > div:nth-child(2) > picture > img')["src"]
-        #
-        # print("dramaMainSomnail = " +dramaMainSomnail.text)
-
 
         if str(movieSummary) != 'None':
             movieSummary = movieSummary.text
@@ -73,10 +96,13 @@ def main(movie_name, category):
             movieSummary = dramaSummary.text
 
         read_reviews()
-
+        
         return render_template('detail.html', TokenUserId=TokenUserId, movieTitle=movieTitle, movieGenre=movieGenre,
                                movieTime=movieTime,
-                               movieSummary=movieSummary, movieImage=movieImage, reviews=reviews)
+                               movieSummary=movieSummary, movieImage=movieImage,movieMainThumbnail=movieMainThumbnail, reviews=reviews)
+
+        
+
 
     except jwt.ExpiredSignatureError:
         print('로그인 시간만료')
@@ -111,12 +137,9 @@ def write_review():
 
 @detail.route('/review', methods=['GET'])
 def read_reviews():
-    from app import GetJwtId
-    TokenUserId = GetJwtId()
     global reviews
     reviews = list(db.review.find({"movieTitle": movieTitle}, {'_id': False}))
     print(reviews)
-    # return jsonify({'reviews': reviews, 'TokenUserId': TokenUserId})
     return jsonify({'msg': '리뷰 조회'})
 
 

@@ -20,6 +20,8 @@
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
 
+    <link rel="icon" href="/static/Netflix-logo.png">
+
     <!-- 구글폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
     <style type="text/css">
@@ -36,7 +38,7 @@
         </a>
     </div>
     <div class="jw-title-clip-poster-play-button jw-title-clip-poster-play-button--backdrop"
-         style="background-image: url(https://www.justwatch.com/images/backdrop/257190744/s1440/don-rug-eob); height: 100%;"></div>
+         style="background-image: url({{ movieMainThumbnail }}); height: 300px;"></div>
 
 </header>
 <div class="wrap">
@@ -51,7 +53,7 @@
             </div>
             <div class="menu_item">
                 <div class="movie_info">
-                    <p>{{ movieTitle }}</p></br>
+                    <p style="font-size:50px">{{ movieTitle }}</p></br>
                     <p>장르 : {{ movieGenre }} </p></br>
                     <p>재생 시간 : {{ movieTime }} </p></br>
                     <p>요약</br> {{ movieSummary }}</p>
@@ -64,29 +66,30 @@
         <div class="reviews">
             <table class="table" id="reviewTable">
                 <colgroup>
-                    <col style="width:15%">
-                    <col style="width:40%">
+                    <col style="width:10%">
+                    <col style="width:45%">
                     <col style="width:10%">
                     <col style="width:15%">
                     <col style="width:20%">
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="col">아이디</th>
-                    <th scope="col">리뷰</th>
-                    <th scope="col">별점</th>
-                    <th scope="col">작성시간</th>
-                    <th scope="col">삭제/수정</th>
+                    <th scope="col" style="text-align: center">아이디</th>
+                    <th scope="col" style="text-align: center">리뷰</th>
+                    <th scope="col" style="text-align: center">별점</th>
+                    <th scope="col" style="text-align: center">작성시간</th>
+                    <th scope="col" style="text-align: center">삭제/수정</th>
                 </tr>
                 </thead>
                 <tbody id="reviews-box">
+                {% if reviews %}
                 {% for reviews in reviews %}
                     <tr>
-                        <td>{{ reviews.userId }}</td>
-                        <td>{{ reviews.Review }}</td>
-                        <td>{{ reviews.starValue }}</td>
-                        <td>{{ reviews.nowDatetime }}</td>
-                        <td>
+                        <td style="text-align: center">{{ reviews.userId }}</td>
+                        <td style="text-align: left">{{ reviews.Review }}</td>
+                        <td style="text-align: center">{{ reviews.starValue }}</td>
+                        <td style="text-align: center">{{ reviews.nowDatetime }}</td>
+                        <td style="text-align: right">
                             {% if reviews.userId  == TokenUserId %}
                                 <button type="button" class="btn btn-primary">수정</button>
                                 <button onclick="deleteReview()" id="deleteReview" type="button"
@@ -94,7 +97,18 @@
                                 </button></td>
                             {% endif %}
                     </tr>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+
+                        <tr>
+                            <td style="text-align: center"></td>
+                            <td style="text-align: right; font-size:30px ">가장먼저 리뷰를 남겨보세요!!</td>
+                            <td style="text-align: center"></td>
+                            <td style="text-align: center"></td>
+                            <td style="text-align: right"></td>
+                        </tr>
+
+                {% endif %}
                 </tbody>
             </table>
             <div class="makeReview" id="makeReview">
@@ -196,10 +210,11 @@
             url: "/review",
             data: {Review: Review, starValue: starValue},
             success: function (response) {
+                alert(response['msg'])
                 window.location.reload();
             },
             error: function (error) {
-                alert("리뷰나 별점 모두 등록해 주세요");
+                alert('리뷰, 별점 모두 등록해 주세요')
             }
         })
     }
