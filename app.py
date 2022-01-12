@@ -21,33 +21,32 @@ app.register_blueprint(save_movies)
 app.register_blueprint(detail)
 
 #jwt 체크 함수 모듈화 테스트중
-# def token_check():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         user_info = db.user.find_one({"id": payload['id']})
-#         return render_template('detail.html')
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+def token_check():
+    print('token_check')
+    # token_receive = request.cookies.get('mytoken')
+    # try:
+    #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    #     user_info = db.user.find_one({"id": payload['id']})
+    #     return print('token_check = try')
+    # except jwt.ExpiredSignatureError:
+    #     print('로그인 시간만료')
+    #     return redirect(url_for('testdef'))
+    # except jwt.exceptions.DecodeError:
+    #     print('로그인 정보 없음')
+    #     return redirect(url_for('testdef'))
+
+@app.route('/')
+def testdef():
+    print('TTTTTTTT')
+    return render_template('login.html')
 
 #jwt id 값 모듈화
 def GetJwtId():
     # token_check()
     token_receive = request.cookies.get('mytoken')
-    # try:
     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     user_info = db.User.find_one({"id": payload['id']})
-    # print('아이디 넘김')
     return user_info['id']
-# except jwt.ExpiredSignatureError:
-    #     print('시간만료')
-    #     return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
-    #
-    # except jwt.exceptions.DecodeError:
-    #     print('존재안함')
-    #     return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 # def token_check():
 #     token_receive = request.cookies.get('mytoken')
@@ -77,8 +76,8 @@ def login_page():
     try:
         payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
         user_info = db.User.find_one({"id":payload['id']})
-        return redirect(url_for('home_router.home'))
-
+        # return redirect(url_for('home_router.home'))
+        return
     except jwt.ExpiredSignatureError:
         return render_template('login.html',msg=msg)
     except jwt.exceptions.DecodeError:
@@ -101,11 +100,37 @@ def register():
     doc = {
         'id':id_receive,
         'pw':pw_hash,
-        'fav' : None
+        'fav' : []
     }
     db.User.insert_one(doc)
 
     return jsonify({'msg':id_receive})
+
+#즐겨찾기 추가
+@app.route('/api/addfavorite', methods = ['POST'])
+def addfavorite():
+    fav = request.form['favorite_give']
+    id = GetJwtId()
+    dbid = db.User.find_one({'id':id})
+    db.User.update_one({'id':dbid['id']},{'$push':{'fav':{'$each':[fav],'$position':0}}})
+    # {'$push':  {'a': 5},'$position': 0}
+
+
+    return jsonify({'msg':fav})
+
+#즐겨찾기 삭제
+@app.route('/api/delfavorite', methods = ['POST'])
+def delfavorite():
+    fav = request.form['favorite_give']
+    id = GetJwtId()
+    dbid = db.User.find_one({'id':id})
+    db.User.update_one({'id':dbid['id']},{'$pull':{'fav':fav}})
+
+
+    return jsonify({'msg':fav})
+
+
+
 
 #회원가입 ID중복 확인
 @app.route('/id_dup_check',methods=['POST'])
@@ -138,31 +163,6 @@ def login():
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
 
-
-# @detail.route('/home')
-# def home():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         user_info = db.User.find_one({"id": payload['id']})
-#         return render_template('home.html')
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login_page",msg="로그인 시간 만료"))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login_page",msg="로그인 정보 없음"))
-
-#jwt 토큰 테스트
-# @app.route('/test')
-# def test():
-#     token_receive = request.cookies.get('mytoken')
-#     try:
-#         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-#         user_info = db.user.find_one({"id": payload['id']})
-#         return render_template('detail.html')
-#     except jwt.ExpiredSignatureError:
-#         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
-#     except jwt.exceptions.DecodeError:
-#         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == '__main__':
     app.run()
