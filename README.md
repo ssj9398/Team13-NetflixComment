@@ -114,3 +114,23 @@ https://youtu.be/-lMBHvXTHxU
 기능  |      Method     | URL |  request   |        response       |
 | :-: | :----------: | :----: | :-------------: | :--------------: |
 |  영화 크롤링  | GET  |  /save_movies   |                 |   성공     |
+
+
+<h3 align="center"><b>✏ Trouble Shooting ✏</b></h3>
+<br>
+<details>
+    <summary>
+        <b>ajax로 데이터를 받아오고 화면으로 뿌려줄 때, 비동기로 작동하기 때문에 
+요소들이 생성되기전에 dom에 접근하게 되어 UI를 다루기가 쉽지 않았습니다. </b>
+    </summary>
+    <br>해결 : 순차적으로 실행되 접근할 수 있게끔 ajax메서드 안에서 작성해서 해결했습니다.
+</details>
+<details>
+    <summary>
+        <b>순환 참조(임포트) 문제
+개별 파이썬 파일 작업으로 blueprint를 사용하였는데
+ex) app.py <- detail.py
+이때 detail에서도 app.py를 임포트 할 경우 에러가 발생하였다. </b>
+    </summary>
+    <br>해결 : 전역으로 임포트 하지 않고 함수내에서 임포트 하는 방법으로 해결
+</details>
