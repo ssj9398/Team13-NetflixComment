@@ -4,14 +4,16 @@ from datetime import datetime, timedelta
 import jwt  #패키지 PyJWT
 from flask import Flask, render_template,jsonify, request,redirect,url_for
 from pymongo import MongoClient
-from home import home
+from home import home,main,save_movies
+
 from detail import detail
 
 
 #암호화 키 / JWT 토큰을 사용할때 쓰는 비밀문자열
 SECRET_KEY = 'hanghae_13'
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost', 27017)
+# client = MongoClient('localhost', 27017)
 db = client.netflix_comment
 app = Flask(__name__)
 
@@ -33,10 +35,24 @@ def token_check():
     #     print('로그인 정보 없음')
     #     return redirect(url_for('testdef'))
 
+
+#메인페이지 로그인정보가있다면 홈으로 이동 아니면 로그인이동
 @app.route('/')
-def testdef():
-    print('TTTTTTTT')
-    return render_template('login.html')
+def main_page():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.User.find_one({"id": payload['id']})
+
+        # return render_template('detail.html')
+        return redirect(url_for('home.main'))
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
 
 #jwt id 값 모듈화
 def GetJwtId():
@@ -68,14 +84,17 @@ def hello_world():  # put application's code here
 @app.route('/login', methods=['GET'])
 def login_page():
     print('로그인 페이지 접속')
+
     msg = request.args.get("msg")
     token_receive = request.cookies.get('mytoken')
 
     try:
         payload = jwt.decode(token_receive,SECRET_KEY,algorithms=['HS256'])
         user_info = db.User.find_one({"id":payload['id']})
+        return redirect(url_for('home.save_movies'))
         # return redirect(url_for('home_router.home'))
-        return
+
+        # return redirect(url_for('home.main'))
     except jwt.ExpiredSignatureError:
         return render_template('login.html',msg=msg)
     except jwt.exceptions.DecodeError:
@@ -137,7 +156,7 @@ def id_dup_check():
     dup_check = bool(db.User.find_one({'id':id}))
     return jsonify({'msg':dup_check})
 
-#로그인 시
+#로그인 성공 시 무비 데이터 로드하러 이동
 @app.route('/api/login', methods=['POST'])
 def login():
     id_receive = request.form['id_give']
@@ -156,6 +175,10 @@ def login():
         }
         token = jwt.encode(payload,SECRET_KEY, algorithm='HS256')
 
+
+        from home import save_movies
+        # return redirect(url_for('home.save_movies'),{'result':'success','token':token})
+
         return jsonify({'result':'success','token':token})
     #로그인 실패 시(아이디/비번 다름)
     else:
@@ -163,4 +186,4 @@ def login():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run('0.0.0.0', port=5000, debug=True)
