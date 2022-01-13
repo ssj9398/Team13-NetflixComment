@@ -111,12 +111,12 @@
                     },
                     success: function (response) {
                         if (response['result'] == 'success') {
-                            $.cookie('mytoken', response['token']);
-                            // , {
-                            //     // path: '/'
-                            // });
+                            $.cookie('mytoken', response['token']
+                            , {
+                                path: '/'
+                            });
                             // alert('로그인 완료');
-                            //로그인후 이동할 페이지
+                            //로그인 후 이동할 페이지
                             window.location.replace("/home")
                         } else {
                             alert(response['msg'])
@@ -193,6 +193,9 @@
         <a href="./login" class="logo">
             <img src="../static/Netflix-logo.png" alt="logo">
         </a>
+
+
+
     </div>
 </header>
 >
