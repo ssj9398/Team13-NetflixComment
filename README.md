@@ -2,7 +2,16 @@
 
 <h4 align="center">📆 2022.01.10 ~ 2022.01.13</h4>
 <br>
+<br>
 
+## 📌 팀원 소개
+
+|[팀장] 장윤철|[팀원] 손성진|[팀원] 임현우|
+|:----:|:-----:|:----:|
+|<img src="https://avatars.githubusercontent.com/u/46017029?v=4" alt="avatar" height="150px" width="150px" /> | <img src="https://avatars.githubusercontent.com/u/48196352?v=4" alt="avatar" height="150px" width="150px" /> | <img src="https://avatars.githubusercontent.com/u/76833697?v=4" alt="avatar" height="150px" width="150px" /> |
+|[name8965](https://github.com/name8965)|[ssj9398](https://github.com/ssj9398)|[hyunwoome](https://github.com/hyunwoome)|
+
+<br>
 ---
 
 <h3><b>🎫 프로젝트 소개 🎫</b></h3>
