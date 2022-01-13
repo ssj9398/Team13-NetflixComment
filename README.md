@@ -95,7 +95,7 @@ https://youtu.be/-lMBHvXTHxU
 |기능|Method|URL|request|response|
 |:--:|:--:|:--:|:--:|:--:|
 |컨텐츠 전체 조회|GET|/movies||전체 컨텐츠 리스트|
-|특정 컨텐츠 상세 조회|GET|/detail/:category/:movie_name||특정 컨텐츠|
+|특정 컨텐츠 상세 조회|GET|/detail/:category/:movie_name||특정 컨텐츠|
 |즐겨찾기 확인|GET|/check_bookmark||
 
 
