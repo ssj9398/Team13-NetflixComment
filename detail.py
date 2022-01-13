@@ -44,13 +44,28 @@ def main(movie_name, category):
             '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div.title-block__container > div.title-block > div').text
         print("movieTitle = " + movieTitle)
 
+        if (movieTitle) != 'None':
+            movieTitle = movieTitle
+        else:
+            movieTitle = ""
+
         movieGenre = soup.select_one(
             '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(3) > div.detail-infos__value').text
         print("movieGenre = " + movieGenre)
 
+        if (movieGenre) != 'None':
+            movieGenre = movieGenre
+        else:
+            movieGenre = ""
+
         movieTime = soup.select_one(
             '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-info > div:nth-child(4) > div.detail-infos__value').text
         print("movieTime = " + movieTime)
+
+        if (movieTime) != 'None':
+            movieTime = movieTime
+        else:
+            movieTime = ""
 
 
         movieMainThumbnail = soup.select_one(
@@ -80,6 +95,11 @@ def main(movie_name, category):
             '#base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-xs.visible-sm.hidden-md.hidden-lg.title-sidebar__desktop > div > picture > source:nth-child(1)')[
             "data-srcset"].split(',')[0]
 
+        if(movieImage) !='None':
+            movieImage = movieImage
+        else:
+            movieImage = ""
+
         ###base > div.jw-info-box > div > div.jw-info-box__container-sidebar > div > aside > div.hidden-sm.visible-md.visible-lg.title-sidebar__desktop > div.title-poster.title-poster--no-radius-bottom > picture > source:nth-child(1)
         print("movieImage = " + movieImage)
 
@@ -89,11 +109,17 @@ def main(movie_name, category):
         dramaSummary = soup.select_one(
             '#base > div.jw-info-box > div > div.jw-info-box__container-content > div:nth-child(2) > div:nth-child(7) > div:nth-child(1) > div:nth-child(4) > p > span')
 
+
+
         if str(movieSummary) != 'None':
             movieSummary = movieSummary.text
+            print(movieSummary)
 
-        elif str(movieSummary) == 'None':
+        elif str(dramaSummary) != 'None':
             movieSummary = dramaSummary.text
+            print(dramaSummary)
+        else:
+            movieSummary = ""
 
         read_reviews()
         
