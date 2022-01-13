@@ -31,3 +31,39 @@ https://youtu.be/-lMBHvXTHxU
 <img src="https://img.shields.io/badge/Flask-4FC08D?style=for-the-badge&logo=Flask&logoColor=white">
 <img src="https://img.shields.io/badge/Jinja-7952B3?style=for-the-badge&logo=Jinja&logoColor=white">
 <img src="https://img.shields.io/badge/MongoDB-61DAFB?style=for-the-badge&logo=MongoDB&logoColor=white">
+
+<br><br>
+<h3 align="center"><b>🎬 Getting Started 🎬</b></h3>
+<pre>
+<code>
+~$ cd Team13-NetflixComment
+~$ sudo chmod 755 initail_ec2.sh
+~$ ./initial_ec2.sh
+~$ pip install flask
+~$ pip install mongo
+~$ python3 app.py
+</code>
+</pre>
+
+<br>
+<h3 align="center"><b>📂 Project Directory Structure 📁</b></h3>
+<pre>
+<code>
+/static
+     ├── /bookmark.svg
+     ├── /detail.css
+     ├── /home.css
+     ├── /login.css
+     ├── /Netflix-logo.png
+/templates
+     ├── /detail.html
+     ├── /home.html
+     └── /login.html
+├── /detail.py
+├── /app.py
+└── /home.py
+</code>
+</pre>
+<br>
+
+---
