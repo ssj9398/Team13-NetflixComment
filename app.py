@@ -12,8 +12,8 @@ from detail import detail
 #암호화 키 / JWT 토큰을 사용할때 쓰는 비밀문자열
 SECRET_KEY = 'hanghae_13'
 
-# client = MongoClient('mongodb://test:test@localhost', 27017)
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost', 27017)
+# client = MongoClient('localhost', 27017)
 db = client.netflix_comment
 app = Flask(__name__)
 

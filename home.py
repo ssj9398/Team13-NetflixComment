@@ -8,7 +8,8 @@ from pymongo import MongoClient
 
 SECRET_KEY = 'hanghae_13'
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost', 27017)
+# client = MongoClient('localhost', 27017)
 db = client.netflix_comment
 home = Blueprint('home', __name__)
 
@@ -30,6 +31,20 @@ def main():
     # movie_title = response['movie_title']
     # movie_image = response['movie_image']
     # movie_href = response['href']
+    token_receive = request.cookies.get('mytoken')
+
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        return render_template('home.html')
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
+
     return render_template('home.html')
 
 
