@@ -16,7 +16,8 @@ from pymongo import MongoClient
 import jwt  #패키지 PyJWT
 SECRET_KEY = 'hanghae_13'
 
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://test:test@localhost', 27017)
+# client = MongoClient('localhost', 27017)
 db = client.netflix_comment
 
 detail = Blueprint('detail', __name__)

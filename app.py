@@ -27,13 +27,13 @@ def token_check():
     # try:
     #     payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
     #     user_info = db.user.find_one({"id": payload['id']})
-    #     return print('token_check = try')
+    #     return user_info['id']
     # except jwt.ExpiredSignatureError:
     #     print('로그인 시간만료')
-    #     return redirect(url_for('testdef'))
+    #     return redirect(url_for('main_page'))
     # except jwt.exceptions.DecodeError:
     #     print('로그인 정보 없음')
-    #     return redirect(url_for('testdef'))
+    #     return redirect(url_for('main_page'))
 
 
 #메인페이지 로그인정보가있다면 홈으로 이동 아니면 로그인이동
