@@ -18,121 +18,141 @@
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
     <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.js"
-            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
     <!-- Favicon -->
     <link rel="icon" href="../static/Netflix-logo.png">
 </head>
-<body>
 
+<body>
 <!-- 로고 -->
 <header>
     <div class="inner">
-        <a href="./home" class="logo">
+        <a href="./home.html" class="logo">
             <img src="../static/Netflix-logo.png" alt="logo">
         </a>
     </div>
 </header>
 
-<!-- 메인 -->
-<h2 class="title">
-    모든 컨텐츠
-</h2>
+<!-- 타이틀 -->
+<h2 class="title">모든 컨텐츠</h2>
 
 <!-- 그리드 -->
 <section class="section">
     <div class="container">
-        <div class="grid">
-            <!-- Movie Poster -->
-            {% for img in movie_image %}
-                <div class="col">
-                    <!-- Bookmark -->
-                    <div class="bookmark" id={{ movie_title[loop.index - 1] }}>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <g id="icomoon-ignore"></g>
-                            <path d="M96 0v512l160-160 160 160v-512z"></path>
-                        </svg>
-                    </div>
-
-                    <!-- Link -->
-                    <a href={{ movie_href[loop.index - 1] }}>
-                        <img src={{ movie_image[loop.index - 1] }}>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
+        <div class="grid"></div>
     </div>
 </section>
 
-<!-- 즐겨찾기 -->
-<h2 class="title" id="bookmark_title">
-    즐겨찾기
-</h2>
+<!-- 타이틀 -->
+<h2 class="title">즐겨찾기</h2>
+
+<section class="section">
+    <div class="container">
+        <div class="grid2"></div>
+    </div>
+</section>
 
 <!-- Script -->
 <script type="text/javascript">
+    // 컨텐츠 불러오기
+    $(window).on('load', function () {
+        console.log('load')
+        showMovies()
 
-    // 로드 시 즐겨찾기 확인하기
-    $(window).on('load', function (e) {
-        console.log(e)
-
-        // 모든 영화 가져오기
-        $.ajax({
-            type: "GET",
-            url: "/movies",
-            success: function (response) {
-                const title = response['title'];
-                console.log(title)
-            }
-        })
-
-        // 즐겨찾기 영화
-        $.ajax({
-            type: "GET",
-            url: "/check_bookmark",
-            success: function (response) {
-                console.log(response)
-            }
-        })
-    })
-
-    // User에 즐겨찾기 추가
-    $('.bookmark').click(function (e) {
-
+        // 컨텐츠 불러오기
+        function showMovies() {
+            console.log('showMovies')
             $.ajax({
-                    type: "GET",
-                    url: "/check_bookmark",
-                    success: function (response) {
-                        let fav = response['fav'];
-                        // 포함되어 있다면?
-                        if (fav.includes(movie)) {
-                            // 즐겨찾기 제거
-                            $(e.target).css({"fill": "white"})
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/delfavorite",
-                                data: {"favorite_give": movie},
-                                success: function (response) {
-                                    return alert(response['msg'] + '가(이) 즐겨찾기에 해제되었습니다.');
-                                }
-                            })
+                type: "GET",
+                url: "/movies",
+                data: {},
+                success: function (response) {
+                    let fav = response['fav']
+                    let movies = response['all_movies'];
+                    for (let i = 0; i < movies.length; i++) {
+                        let title = movies[i]['movie_title'];
+                        let image = movies[i]['movie_image'];
+                        let href = movies[i]['href'];
+                        if (fav.includes(i)) {
+                            let favHtml = `
+                        <div class="col">
+                            <a href="${href}">
+                                <img src="${image}" alt="${image}">
+                            </a>
+                            <div class="bookmark" id="${title}">
+                                <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="fill: #FCC400">
+                                    <g id="icomoon-ignore"></g>
+                                    <path d="M96 0v512l160-160 160 160v-512z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        `;
+                            $('.grid2').append(favHtml);
+                            $('.grid').append(favHtml);
                         } else {
-                            // 즐겨찾기 추가
-                            $(e.target).css({"fill": "#FCC400"})
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/addfavorite",
-                                data: {"favorite_give": movie},
-                                success: function (response) {
-                                    alert(response['msg'] + '가(이) 즐겨찾기에 추가되었습니다.');
-                                }
-                            })
+                            let normalHtml = `
+                        <div class="col">
+                            <a href="${href}">
+                                <img src="${image}" alt="${image}">
+                            </a>
+                            <div class="bookmark" id="${title}">
+                                <svg id="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                    <g id="icomoon-ignore"></g>
+                                    <path d="M96 0v512l160-160 160 160v-512z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        `;
+                            $('.grid').append(normalHtml);
                         }
                     }
+
+                    // 핸들러
+                    $('.bookmark').on('click', function (e) {
+                        console.log('click')
+                        let movie = e.currentTarget.getAttribute('id');
+                        $.ajax({
+                                type: "GET",
+                                url: "/check_bookmark",
+                                success: function (response) {
+                                    let fav = response['fav'];
+                                    // 포함되어 있다면?
+                                    if (fav.includes(movie)) {
+                                        // 즐겨찾기 제거
+                                        $(e.target).css({"fill": "white"})
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/delfavorite",
+                                            data: {"favorite_give": movie},
+                                            success: function (response) {
+                                                alert(response['msg'] + '가(이) 즐겨찾기에 해제되었습니다.');
+                                                window.location.reload();
+                                            }
+                                        })
+                                    } else {
+                                        // 즐겨찾기 추가
+                                        $(e.target).css({"fill": "#FCC400"})
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/addfavorite",
+                                            data: {"favorite_give": movie},
+                                            success: function (response) {
+                                                alert(response['msg'] + '가(이) 즐겨찾기에 추가되었습니다.');
+                                                window.location.reload();
+                                            }
+                                        })
+                                    }
+                                }
+                            }
+                        )
+                    })
                 }
-            )
+            })
         }
-    )
+    })
 </script>
 
 </body>

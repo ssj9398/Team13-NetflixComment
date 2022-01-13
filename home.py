@@ -25,31 +25,36 @@ def GetJwtId():
 # home 라우터 (컨텐츠 디비에서 가져온 후 보여줌)
 @home.route('/home')
 def main():
-    r = requests.get('http://127.0.0.1:5000/movies')
-    response = r.json()
-    movie_title = response['title']
-    movie_image = response['image']
-    movie_href = response['href']
-    return render_template('home.html', movie_title=movie_title, movie_image=movie_image, movie_href=movie_href)
+    # r = requests.get('http://127.0.0.1:5000/movies')
+    # response = r.json()
+    # movie_title = response['movie_title']
+    # movie_image = response['movie_image']
+    # movie_href = response['href']
+    return render_template('home.html')
 
 
-# 모든 컨텐츠 디비에서 가져오기
+# 모든 컨텐츠 디비에서 가져오고 즐겨찾기 인덱스 반환
 @home.route("/movies")
 def read_movies():
-    all_movies = list(db.movie.find({}, {'_id': False}))
+    # 사용자 즐겨찾기 목록
+    id = GetJwtId()
+    dbid = db.User.find_one({'id': id})
+    fav = db.User.find_one({'id': dbid['id']})
+
+    # 모든 영화 목록
+    movies = list(db.movie.find({}, {'_id': False}))
+
+    # 일치하는지 확인 후 인덱스 배열 반환
+    fav_list = fav['fav']
     title = []
-    image = []
-    href = []
-    star = []
-    for movie in all_movies:
-        title.append(movie['movie_title'])
-        image.append(movie['movie_image'])
-        href.append(movie['href'])
-        star.append(movie['star'])
-    return jsonify({'title': title,
-                    'image': image,
-                    'href': href,
-                    'star': star})
+    tmp = []
+    for i in movies:
+        title.append(i['movie_title'])
+    for i in fav_list:
+        tmp.append(title.index(i))
+    return jsonify(
+        {'all_movies': movies, "fav": tmp}
+    )
 
 
 # 사용자 즐겨찾기 목록 가져오기
@@ -59,26 +64,6 @@ def read_bookmark():
     dbid = db.User.find_one({'id': id})
     fav = db.User.find_one({'id': dbid['id']})
     return jsonify({"fav": fav['fav']})
-
-# 컨텐츠 즐겨찾기 확인
-# @home.route('/check_bookmark', methods=['GET'])
-# def read_bookmark():
-#     title = request.form['title']
-#     print(db.movie.find_one({"movie_title": title}, {'_id': False})['fav'])
-#     return db.movie.find_one({"movie_title": title}, {'_id': False})['fav']
-
-#
-# # 컨텐츠 즐겨찾기 토글
-# @home.route('/bookmark', methods=['POST'])
-# def update_bookmark():
-#     title = request.form['title']
-#     movie_info = db.movie.find_one({"movie_title": title}, {'_id': False})
-#     if movie_info['fav']:
-#         db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": False}})
-#         return jsonify({'msg': '즐겨찾기를 해제합니다.'})
-#     else:
-#         db.movie.find_one_and_update({"movie_title": title}, {"$set": {"fav": True}})
-#         return jsonify({'msg': '즐겨찾기에 추가되었습니다.'})
 
 
 # 모든 컨텐츠 디비에 저장 (❗️한 번만 실행되야함)
@@ -95,10 +80,9 @@ def save_movies():
 
     # 컨텐츠 각 항목에 접근 후 디비에 저장
     for tags in new_tags:
-        title = tags.img.get('alt').replace(" ", "")
+        title = tags.img.get('alt')
         href_tag = re.sub('/kr', '/detail', tags['href'])
         star = 0
-        fav = False
         if tags.img.get('data-src'):
             src = tags.img.get('data-src')
         else:
@@ -109,7 +93,6 @@ def save_movies():
             'movie_image': src,
             'href': href_tag,
             'star': star,
-            'fav': fav,
         }
 
         db.movie.insert_one(doc)
