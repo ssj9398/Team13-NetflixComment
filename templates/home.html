@@ -53,6 +53,7 @@
                             <path d="M96 0v512l160-160 160 160v-512z"></path>
                         </svg>
                     </div>
+
                     <!-- Link -->
                     <a href={{ movie_href[loop.index - 1] }}>
                         <img src={{ movie_image[loop.index - 1] }}>
@@ -72,8 +73,10 @@
 <script type="text/javascript">
 
     // 로드 시 즐겨찾기 확인하기
-    $(window).on('load', function () {
-        // 모든 영화
+    $(window).on('load', function (e) {
+        console.log(e)
+
+        // 모든 영화 가져오기
         $.ajax({
             type: "GET",
             url: "/movies",
@@ -91,12 +94,11 @@
                 console.log(response)
             }
         })
-
     })
 
     // User에 즐겨찾기 추가
     $('.bookmark').click(function (e) {
-            let movie = e.currentTarget.getAttribute('id');
+
             $.ajax({
                     type: "GET",
                     url: "/check_bookmark",
@@ -131,8 +133,6 @@
             )
         }
     )
-
-
 </script>
 
 </body>
