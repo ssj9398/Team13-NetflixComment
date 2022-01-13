@@ -77,3 +77,40 @@ https://youtu.be/-lMBHvXTHxU
 <br>
 
 ---
+
+
+<h3 align="center"><b>🏷 API Table 🏷</b></h3>
+
+#### User
+|기능|Method|URL|request|response|
+|:--:|:--:|:--:|:--:|:--:|
+|로그인|POST|/login| id,pw  |    |
+|회원가입|POST|/register|  id,pw  |  가입 완료 메세지  |
+|로그아웃|GET|/logout|    |    |
+|즐겨찾기 추가|POST|/api/addfavorite|movie_title|추가된 영화제목|
+|즐겨찾기 삭제|POST|/api/delfavorite|movie_title|삭제된 영화제목|
+
+#### Movie
+
+|기능|Method|URL|request|response|
+|:--:|:--:|:--:|:--:|:--:|
+|컨텐츠 전체 조회|GET|/movies||전체 컨텐츠 리스트|
+|특정 컨텐츠 상세 조회|GET|/detail/:category/:movie_name||특정 컨텐츠|
+|즐겨찾기 확인|GET|/check_bookmark||
+
+
+#### Review
+
+ 기능  |      Method     | URL |  request   |        response       |
+| :-: | :----------: | :----: | :-------------: | :--------------: |
+|  리뷰 리스트  | GET  |  /review   |                 |   "리뷰 조회"     |
+|  리뷰 작성  |  POST |  /review  |review, star, movieTitle | "리뷰 등록 완료"  |
+|  리뷰 수정  |  PUT |  /review|  id, date, review   |  "수정 완료"     |
+|  리뷰 삭제  | DELETE  |  /review |  userid, review, starValue, writeTime   |  "삭제 완료"    |
+| 모든 리뷰 리스트 | GET | /allReview |  | review list |
+
+#### Movie Crawling (❗️최초 1회만 실행)
+
+기능  |      Method     | URL |  request   |        response       |
+| :-: | :----------: | :----: | :-------------: | :--------------: |
+|  영화 크롤링  | GET  |  /save_movies   |                 |   성공     |
