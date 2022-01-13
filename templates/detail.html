@@ -37,8 +37,15 @@
             <img src="/static/Netflix-logo.png" alt="logo">
         </a>
     </div>
+    {% if movieMainThumbnail %}
     <div class="jw-title-clip-poster-play-button jw-title-clip-poster-play-button--backdrop"
-         style="background-image: url({{ movieMainThumbnail }}); height: 300px;"></div>
+         style="background-image: url({{ movieMainThumbnail }}); height: 300px;">
+    </div>
+    {% else %}
+    <div class="jw-title-clip-poster-play-button jw-title-clip-poster-play-button--backdrop"
+         style="background-image: url({{ movieMainThumbnail }});">
+    </div>
+    {% endif %}
 
 </header>
 <div class="wrap">
@@ -210,7 +217,7 @@
             url: "/review",
             data: {Review: Review, starValue: starValue},
             success: function (response) {
-                alert(response['msg'])
+                $('#bookReview').val("")
                 window.location.reload();
             },
             error: function (error) {
