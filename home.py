@@ -1,7 +1,7 @@
 import re
 
 import jwt
-from flask import Blueprint, render_template, jsonify, request
+from flask import Blueprint, render_template, jsonify, request, redirect, url_for
 import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
@@ -78,6 +78,8 @@ def save_movies():
     new_tags = soup.select(
         '#base > div.title-list.title-list--CLS-block > div div:nth-child(2) > div:nth-child(1) > div > div > a')
 
+    #db전부 삭제 후 진행
+    db.movie.delete_many({})
     # 컨텐츠 각 항목에 접근 후 디비에 저장
     for tags in new_tags:
         title = tags.img.get('alt')
@@ -96,4 +98,5 @@ def save_movies():
         }
 
         db.movie.insert_one(doc)
-    return jsonify({'msg': '성공'})
+    return redirect(url_for('home.main'))
+    # return jsonify({'msg': '성공'})
