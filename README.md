@@ -12,6 +12,7 @@
 |[name8965](https://github.com/name8965)|[ssj9398](https://github.com/ssj9398)|[hyunwoome](https://github.com/hyunwoome)|
 
 <br>
+
 ---
 
 <h3><b>🎫 프로젝트 소개 🎫</b></h3>
@@ -22,7 +23,7 @@
 <h3><b>🎞 프로젝트 시연영상 🎞</b></h3>
 https://youtu.be/-lMBHvXTHxU
 
---
+---
 
 <br>
 <h3 align="center"><b>🛠 Tech Stack 🛠</b></h3>
