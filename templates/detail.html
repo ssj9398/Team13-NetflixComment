@@ -211,11 +211,12 @@
     function makeReview() {
         let Review = $('#bookReview').val();
         let starValue = $('input[name="starpoint"]:checked').val();
+        let movieTitle = "{{movieTitle}}";
 
         $.ajax({
             type: "POST",
             url: "/review",
-            data: {Review: Review, starValue: starValue},
+            data: {Review: Review, starValue: starValue, movieTitle : movieTitle},
             success: function (response) {
                 $('#bookReview').val("")
                 window.location.reload();

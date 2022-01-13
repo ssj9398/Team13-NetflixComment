@@ -120,6 +120,7 @@ def write_review():
     review = request.form['Review']
     review = review.replace("  ", " ")
     starValue = request.form['starValue']
+    movietitle = request.form['movieTitle']
 
     if starValue != "" and review != "":
         nowDatetime = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -128,7 +129,7 @@ def write_review():
             'userId': TokenUserId,
             'Review': review,
             'starValue': starValue,
-            'movieTitle': movieTitle,
+            'movieTitle': movietitle,
             'nowDatetime': nowDatetime
         }
         db.review.insert_one(doc)
