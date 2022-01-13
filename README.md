@@ -75,9 +75,13 @@ https://youtu.be/-lMBHvXTHxU
 </code>
 </pre>
 <br>
+<br>
+
 
 ---
 
+
+<br>
 <h3 align="center"><b>📢 Main function 📢</b></h3>
 <br>
 <h4><b>📰 Login Page 📰</b></h4>
@@ -139,6 +143,7 @@ https://youtu.be/-lMBHvXTHxU
 
 ---
 
+<br>
 <h4><b>📰 Movie Detail & Reviw Page 📰</b></h4>
 <table width="100%">
     <tr>
@@ -165,10 +170,11 @@ https://youtu.be/-lMBHvXTHxU
     </tr>
 </table>
 
-
+<br><br>
 
 ---
 
+<br><br>
 
 <h3 align="center"><b>🏷 API Table 🏷</b></h3>
 
