@@ -1,4 +1,4 @@
-<h3 align="center"><b>항해99 1주차 팀 미니프로젝트, NetflixComment</b></h3>
+<h3 align="center"><b>1주차 팀 미니프로젝트, NetflixComment</b></h3>
 
 <h4 align="center">📆 2022.01.10 ~ 2022.01.13</h4>
 <br>
